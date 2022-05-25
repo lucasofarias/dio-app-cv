@@ -1,23 +1,38 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert, TouchableOpacity, Linking, Pressable} from 'react-native';
 import foto from './assets/fotoPerfil.jpeg';
 import Icon from 'react-native-vector-icons/Feather';
 import Card from './components/card/index';
+import _objectWithoutProperties from '@babel/runtime/helpers/objectWithoutProperties';
+
+const urlToMyGitHub = 'https://github.com/lucasofarias';
+const urlToMyLinkedIn = 'https://linkedin.com/in/lucas-farias-291bb2207/';
+const urlToMyInstagram = 'https://www.instagram.com/fariasaguiar_/';
 
 const App = () => {
 
-  function handleRedeSocial(rede_social) {
+  const handleRedeSocial = async (rede_social) => {
+    
     switch(rede_social) {
       case 'github':
-        Alert.alert('Meu GitHub', 'https://github.com/lucasofarias');
+        var response = await Linking.canOpenURL(urlToMyGitHub);
+        if(response) {
+          await Linking.openURL(urlToMyGitHub);
+        }
       break;
 
       case 'linkedin':
-        Alert.alert('Meu LinkedIn', 'https://linkedin.com/in/lucas-farias-291bb2207/');
+        var response = await Linking.canOpenURL(urlToMyLinkedIn);
+        if(response) {
+          await Linking.openURL(urlToMyLinkedIn);
+        }
       break;
 
       case 'instagram':
-        Alert.alert('Meu Instagram', 'https://www.instagram.com/fariasaguiar_/');
+        var response = await Linking.canOpenURL(urlToMyInstagram);
+        if(response) {
+          await Linking.openURL(urlToMyInstagram);
+        }
       break;
     }
   };
@@ -31,17 +46,17 @@ const App = () => {
             <Text style={styles.nome}>Lucas Farias</Text>
             <Text style={styles.funcao}>Desenvolvedor Full Stack</Text>
             
-            <View style={styles.icons}>
+            <View style={styles.redes_sociais}>
               <TouchableOpacity onPress={() => handleRedeSocial('github')}>
-                <Icon name='github' size={20}></Icon>
+                <Icon name='github' size={20} style={styles.icones}></Icon>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => handleRedeSocial('linkedin')}>
-                <Icon name='linkedin' size={20}></Icon>
+                <Icon name='linkedin' size={20} style={styles.icones}></Icon>
               </TouchableOpacity>
                 
               <TouchableOpacity onPress={() => handleRedeSocial('instagram')}>
-                <Icon name='instagram' size={20}></Icon>
+                <Icon name='instagram' size={20} style={styles.icones}></Icon>
               </TouchableOpacity>
             </View>
           </View>
@@ -81,6 +96,9 @@ const styles = StyleSheet.create({
     width: 250,
     height: 250,
     borderRadius: 125,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#939393',
   },
 
   nome: {
@@ -95,12 +113,16 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 
-  icons: {
+  redes_sociais: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '60%',
     marginTop: 20,
+  },
+
+  icones: {
+    color: '#939393',
   },
   
   card_content_text: {
